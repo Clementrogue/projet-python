@@ -1,32 +1,46 @@
 name: CI/CD Pipeline
+# Nom du workflow. Ce nom apparaîtra dans l'onglet "Actions" de votre dépôt GitHub.
 
 on:
   push:
     branches:
       - main
+# Le workflow est déclenché à chaque fois qu'un push est effectué sur la branche `main`.
 
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
+    # Définition d'un job nommé `build-test-deploy` qui s'exécutera sur un environnement Ubuntu à jour.
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      # Étape 1 : Clone le dépôt GitHub dans l'environnement de travail.
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
+      # Étape 2 : Configure l'environnement Python avec une version spécifiée (3.x).
 
     - name: Install dependencies
-      run: | # here is the first command
-       
+      run: |
+        pip install -r requirements.txt
+      # Étape 3 : Installe les dépendances Python à partir du fichier `requirements.txt`.
+      # Remplacez ce commentaire si vous avez besoin de commandes spécifiques.
 
     - name: Run tests
-      run: | # here is the first command
+      run: |
+        python -m unittest discover tests
+      # Étape 4 : Exécute les tests unitaires définis dans le répertoire `tests`.
+      # Remplacez la commande selon le framework de tests que vous utilisez (ex: pytest).
 
     - name: Build Docker image
-      run: | # here is the first command
+      run: |
+        docker build -t flask-python-app .
+      # Étape 5 : Construit une image Docker pour l'application.
+      # Remplacez `flask-python-app` par le nom approprié pour l'image Docker.
+      # Assurez-vous d'avoir un fichier `Dockerfile` correctement configuré dans le projet.
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -34,3 +48,7 @@ jobs:
         app-name: 'flask-python-app' # replace with your app name
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./microservice
+      # Étape 6 : Déploie l'application sur Azure Web App.
+      # - `app-name` : Nom de l'application Azure Web App.
+      # - `publish-profile` : Profil de publication sécurisé, récupéré depuis les secrets GitHub.
+      # - `package` : Chemin vers l'application ou les fichiers à déployer.
