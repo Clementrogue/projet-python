@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+<!-- Déclaration du document en tant que HTML5 et spécification de la langue comme étant le français. -->
 <head>
     <meta charset="UTF-8">
+    <!-- Définit l'encodage des caractères comme UTF-8 pour garantir la compatibilité avec les caractères spéciaux. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Assure que la page est responsive en adaptant la mise en page à la taille de l'écran. -->
     <title>Calculateur de Prêt</title>
+    <!-- Titre de la page affiché dans l'onglet du navigateur. -->
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Importation de la bibliothèque jQuery pour des manipulations DOM ou AJAX (bien qu'elle ne soit pas utilisée ici). -->
+
     <style>
+        /* Début du style CSS intégré pour la mise en page et le design. */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -62,31 +70,46 @@
             margin: 5px 0;
         }
     </style>
+    <!-- Styles intégrés définissant l'apparence de la page, y compris les conteneurs, les boutons, et les champs de saisie. -->
 </head>
 <body>
     <div class="container">
+        <!-- Conteneur centralisé pour afficher le contenu de manière claire et esthétique. -->
         <h2>Calculateur de Prêt</h2>
+        <!-- Titre principal de l'application. -->
+
         <div class="input-group">
             <label for="loan_amount">Montant du prêt (€)</label>
             <input type="number" id="loan_amount" name="loan_amount" placeholder="Exemple : 10000" required>
         </div>
+        <!-- Champ de saisie pour le montant du prêt. -->
+
         <div class="input-group">
             <label for="duration">Durée (années)</label>
             <input type="number" id="duration" name="duration" placeholder="Exemple : 5" required>
         </div>
+        <!-- Champ de saisie pour la durée du prêt. -->
+
         <div class="input-group">
             <label for="interest_rate">Taux d'intérêt (%)</label>
             <input type="number" id="interest_rate" name="interest_rate" step="0.01" placeholder="Exemple : 3.5" required>
         </div>
+        <!-- Champ de saisie pour le taux d'intérêt avec une précision possible à deux décimales. -->
+
         <button onclick="calculateLoan()">Calculer</button>
+        <!-- Bouton pour déclencher le calcul des paiements du prêt. -->
 
         <div class="result">
+            <!-- Conteneur pour afficher les résultats calculés. -->
             <p>Mensualité : €<span id="monthly_payment">0.00</span></p>
+            <!-- Affiche le paiement mensuel calculé. -->
             <p>Coût total du prêt : €<span id="total_cost">0.00</span></p>
+            <!-- Affiche le coût total du prêt calculé. -->
         </div>
     </div>
 
     <script>
+        // Début du script JavaScript pour gérer la logique de calcul.
         function calculateLoan() {
             const loan_amount = parseFloat(document.getElementById('loan_amount').value);
             const duration = parseInt(document.getElementById('duration').value);
@@ -94,17 +117,28 @@
 
             if (isNaN(loan_amount) || isNaN(duration) || isNaN(interest_rate)) {
                 alert("Veuillez remplir tous les champs avec des valeurs valides.");
+                // Affiche une alerte si un champ est vide ou contient une valeur non valide.
                 return;
             }
 
             const monthly_rate = interest_rate / 100 / 12;
-            const number_of_payments = duration * 12;
+            // Conversion du taux d'intérêt annuel en taux mensuel en pourcentage.
 
-            const monthly_payment = (loan_amount * monthly_rate) / (1 - Math.pow(1 + monthly_rate, -number_of_payments));
+            const number_of_payments = duration * 12;
+            // Calcul du nombre total de paiements mensuels.
+
+            const monthly_payment = (loan_amount * monthly_rate) / 
+                                    (1 - Math.pow(1 + monthly_rate, -number_of_payments));
+            // Utilise la formule standard pour calculer le paiement mensuel avec un intérêt.
+
             const total_cost = monthly_payment * number_of_payments;
+            // Multiplie le paiement mensuel par le nombre total de paiements pour obtenir le coût total.
 
             document.getElementById('monthly_payment').textContent = monthly_payment.toFixed(2);
+            // Met à jour l'élément HTML pour afficher le paiement mensuel arrondi à 2 décimales.
+
             document.getElementById('total_cost').textContent = total_cost.toFixed(2);
+            // Met à jour l'élément HTML pour afficher le coût total arrondi à 2 décimales.
         }
     </script>
 </body>
