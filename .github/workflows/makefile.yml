@@ -1,28 +1,37 @@
 name: Makefile CI
- 
+# Nom du workflow, visible dans l'interface GitHub Actions. Ici, il indique un pipeline basé sur Makefile.
+
 on:
   push:
     branches: [ "main" ]
+    # Le workflow est déclenché à chaque fois qu'il y a un "push" sur la branche principale ("main").
 
- 
 jobs:
   build:
- 
+    # Déclare un job appelé "build". C'est une étape principale dans le workflow.
+
     runs-on: ubuntu-latest
- 
+    # Indique que ce job doit s'exécuter sur une machine virtuelle avec la dernière version d'Ubuntu.
+
     steps:
     - name: checkout
       uses: actions/checkout@v4
- 
+      # Étape pour récupérer le code source du dépôt GitHub. La version utilisée du module checkout est "v4".
+
     - name: python-install
       uses: actions/setup-python@v2
       with:
          python-version: '3.x'
- 
+         # Configure l'environnement Python pour utiliser une version 3.x. Utile pour des projets Python avec des tests ou des dépendances.
+
     - name: Test
       run: cd health-calculator-service
-&& make test
- 
+           && make test
+      # Étape pour exécuter les tests. 
+      # Change le répertoire courant vers "health-calculator-service" et utilise la commande `make test`.
+
     - name: run
       run: cd health-calculator-service 
-&& make run
+           && make run
+      # Étape pour démarrer le service. 
+      # Change le répertoire courant vers "health-calculator-service" et utilise la commande `make run`.
