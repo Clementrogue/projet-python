@@ -1,2 +1,9 @@
 flask==2.0.2
+# Flask est un microframework web écrit en Python.
+# La version 2.0.2 est spécifiée pour garantir la compatibilité avec le projet.
+# Flask permet de créer des applications web, gérer les routes et les requêtes HTTP.
+
 werkzeug==2.0.3
+# Werkzeug est une bibliothèque WSGI utilisée par Flask.
+# Elle fournit des outils pour gérer les requêtes, les réponses HTTP, et les environnements de serveur.
+# La version 2.0.3 est spécifiée ici, car elle est compatible avec Flask 2.0.2.
