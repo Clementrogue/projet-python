@@ -1,80 +1,101 @@
-Flask App - Modèle de Projet DevOps
+# Application Flask - Modèle de Projet DevOps
 
-Ce dépôt sert de modèle pour un projet DevOps simple basé sur Flask. L'application propose des fonctionnalités de calcul de base (addition et soustraction) et inclut tous les fichiers nécessaires pour configurer un environnement local, exécuter des tests, et déployer sur un service cloud en suivant les meilleures pratiques DevOps.
-Structure du Projet
+Ce dépôt sert de modèle pour un projet DevOps simple construit avec Flask. L'application inclut un calculateur de prêt permettant de calculer les mensualités et le coût total d'un emprunt. Ce projet est conçu pour suivre les meilleures pratiques DevOps, avec des configurations pour un déploiement local, des tests unitaires et des pipelines d'intégration et de déploiement continus (CI/CD).
 
-DEVOPS-PROJECT/
-├── app.py
-├── utils.py
-├── test.py
-├── requirements.txt
-├── Makefile
-├── templates/
-│   └── home.html
-├── .env
-├── .gitignore
+---
 
-Description des Fichiers
+## Structure du Projet
 
-    app.py : Fichier principal de l'application Flask. Configure les routes et les connecte aux fonctions définies dans utils.py pour fournir des points de terminaison API.
+```
+clementrogue-projet-python/
+├── README.md                   # Documentation du projet
+├── Dockerfile                  # Configuration Docker pour la conteneurisation
+├── Makefile                    # Commandes pour configurer, exécuter et tester le projet
+├── app.py                      # Fichier principal de l'application Flask
+├── pipeline.yaml               # Exemple de configuration pour pipeline CI/CD
+├── requirements.txt            # Liste des dépendances Python
+├── test.py                     # Tests unitaires pour les fonctions utilitaires
+├── utils.py                    # Logique principale pour les calculs de prêt
+├── Template/                   # Modèles HTML pour l'interface utilisateur
+│   ├── home.html               # Interface utilisateur du calculateur de prêt
+│   └── test                    # Fichier placeholder pour ressources supplémentaires
+└── .github/
+    └── workflows/              # Workflows GitHub Actions pour CI/CD
+        ├── main_projet.yml     # Workflow pour le déploiement Azure (projet spécifique)
+        ├── main_py.yml         # Workflow pour le déploiement Azure (Python spécifique)
+        ├── makefile.yml        # Workflow basé sur Makefile pour la construction et les tests
+        └── test                # Placeholder pour workflows supplémentaires
+```
 
-    utils.py : Contient les fonctions utilitaires pour les opérations principales (addition, soustraction). Ce fichier centralise la logique de l'application.
+---
 
-    test.py : Fichier de tests unitaires, contenant les tests des fonctions définies dans utils.py afin de garantir le bon fonctionnement de l'application.
+## Fonctionnalités
 
-    requirements.txt : Liste des dépendances Python nécessaires au fonctionnement de l'application. Ce fichier est utilisé pour installer les bibliothèques requises dans l'environnement.
+- **Calculateur de Prêt** : Une application web simple permettant de calculer les mensualités et le coût total d'un prêt en fonction du montant, du taux d'intérêt et de la durée.
+- **Structure Modulaire** : Une organisation claire pour faciliter l'extension et la maintenance du projet.
+- **Intégration CI/CD** : Workflows GitHub Actions fournis pour automatiser les tests et le déploiement.
+- **Support Docker** : Fichier Docker prêt à l'emploi pour la conteneurisation.
+- **Configuration Environnementale** : Utilisation de fichiers `.env` pour des configurations spécifiques et sécurisées.
 
-    Makefile : Fichier Make qui simplifie la gestion du projet avec des commandes comme :
-        make init : Installer les dépendances.
-        make run : Lancer l'application Flask.
-        make test : Exécuter les tests unitaires.
+---
 
-    templates/home.html : Modèle HTML pour l'interface utilisateur de l'application. Ce fichier inclut des champs d'entrée et des boutons pour interagir avec les opérations du calculateur.
+## Instructions d’Installation
 
-    .env : Fichier de configuration pour les variables d'environnement. Il est utilisé pour stocker des informations sensibles (comme des clés API, identifiants de base de données ou paramètres spécifiques à l'environnement). ⚠️ Ce fichier ne doit pas être versionné dans Git.
+### 1. Cloner le Dépôt
 
-    .gitignore : Liste des fichiers et dossiers à ignorer par Git, comme .env, les fichiers compilés Python (__pycache__), et les caches locaux.
-
-Guide de Démarrage
-
-    Cloner le Dépôt :
-
+```bash
 git clone <repository-url>
-cd DEVOPS-PROJECT
+cd clementrogue-projet-python
+```
 
-Configurer l'Environnement :
+### 2. Créer et Activer un Environnement Virtuel
 
-    Créez et activez un environnement virtuel (recommandé pour gérer les dépendances).
-    Installez les dépendances :
+```bash
+python3 -m venv venv
+source venv/bin/activate  # Sous Windows, utilisez `venv\Scripts\activate`
+```
 
-    make init
+### 3. Installer les Dépendances
 
-Lancer l'Application :
+```bash
+pip install -r requirements.txt
+```
 
-    Exécutez l'application Flask en local :
+### 4. Lancer l’Application
 
-    make run
+```bash
+make run
+```
 
-Exécuter les Tests :
+Accédez à l'application à l'adresse suivante : `http://127.0.0.1:5000`.
 
-    Vérifiez la fonctionnalité en exécutant les tests unitaires :
+### 5. Exécuter les Tests Unitaires
 
-        make test
+```bash
+make test
+```
 
-Configuration Supplémentaire
-Variables d'Environnement :
+---
 
-    Utilisez le fichier .env pour configurer les paramètres spécifiques à votre environnement ou pour stocker des informations sensibles.
-    Assurez-vous que ce fichier est inclus dans .gitignore pour éviter de le versionner.
+## Déploiement
 
-Instructions de Déploiement
+Le projet est pré-configuré pour être déployé sur Azure Web Apps via GitHub Actions.
 
-Pour le déploiement, configurez des pipelines CI/CD adaptés à votre plateforme préférée (par exemple, GitHub Actions, Azure Pipelines). Ce modèle est compatible avec les plateformes de déploiement cloud comme AWS, Azure ou Heroku pour une évolutivité facile.
+1. Remplacez les variables placeholder dans les fichiers `.github/workflows/*.yml` avec les détails de votre application Azure Web App.
+2. Poussez vos modifications sur la branche `main` pour déclencher les pipelines CI/CD.
 
-    Utilisez pipeline.yaml comme modèle pour créer un pipeline de construction et de déploiement, notamment sur Azure.
+---
 
-Points Forts de ce Modèle
+## Contribuer
 
-    Structure claire et modulaire.
-    Intégration facile avec des outils CI/CD.
-    Conformité aux bonnes pratiques de gestion d'environnements sécurisés.
+1. Forkez le dépôt.
+2. Créez une nouvelle branche : `git checkout -b nom-fonctionnalité`.
+3. Faites vos modifications et commitez-les : `git commit -m 'Ajout d'une nouvelle fonctionnalité'`.
+4. Poussez votre branche : `git push origin nom-fonctionnalité`.
+5. Ouvrez une Pull Request.
+
+---
+
+## Licence
+
+Ce projet est sous licence [MIT](LICENSE).
